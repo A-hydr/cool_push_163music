@@ -48,7 +48,8 @@ logindata = {
 
 def push(res):
     now = datetime.datetime.now()
-    now_time = '{}-{}-{} {}:{}:{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
+    now_time = '{}-{}-{} {}:{}:{}'.format(now.year, now.month,
+                                          now.day, now.hour, now.minute, now.second)
     post_data = res + "\n" + now_time
     push_url = "https://push.xuthus.cc/send/" + input()
     requests.post(push_url, post_data.encode("utf-8"))
@@ -86,10 +87,9 @@ else:
         res = "签到成功，经验+"+str(object['point'])
         push(res)
     else:
-        print("重复签到")
         res = '网易云重复签到'
-        post_data = res + "\n" + now_time
-        push(post_data)
+        print(res)
+        push(res)
 
 
 res = s.post(url=url3, data=protect(
