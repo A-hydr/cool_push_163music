@@ -73,12 +73,16 @@ else:
         now_time = '{}-{}-{} {}:{}:{}'.format(
             now.year, now.month, now.day, now.hour, now.minute, now.second)
         res = "签到成功，经验+"+str(object['point'])
-        post_data = res + "\n" + now_time
+        print(res)
         # 发送QQ通知
         push_url = "https://push.xuthus.cc/send/" + input()
+        post_data = res + "\n" + now_time
         requests.post(push_url, post_data.encode("utf-8"))
-        print(res)
     else:
+       # 发送QQ通知
+        push_url = "https://push.xuthus.cc/send/" + input()
+        post_data = '网易云重复签到'
+        requests.post(push_url, post_data.encode("utf-8"))
         print("重复签到")
 
 
