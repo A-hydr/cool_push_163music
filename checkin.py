@@ -74,6 +74,7 @@ else:
             now.year, now.month, now.day, now.hour, now.minute, now.second)
         res = "签到成功，经验+"+str(object['point'])
         post_data = res + "\n" + now_time
+        # 发送QQ通知
         push_url = "https://push.xuthus.cc/send/" + input()
         requests.post(push_url, post_data.encode("utf-8"))
         print(res)
