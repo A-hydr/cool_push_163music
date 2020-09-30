@@ -48,8 +48,7 @@ logindata = {
 
 def push(res):
     now = datetime.datetime.now()
-    now_time = '{}-{}-{} {}:{}:{}'.format(
-        now.year, now.month, now.day, now.hour, now.minute, now.second)
+    now_time = '{}-{}-{} {}:{}:{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
     post_data = res + "\n" + now_time
     push_url = "https://push.xuthus.cc/send/" + input()
     requests.post(push_url, post_data.encode("utf-8"))
