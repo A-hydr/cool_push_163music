@@ -45,12 +45,16 @@ logindata = {
 
 # 发送QQ通知
 
+
+spkey = input()
+
+
 def push(res):
     now = datetime.datetime.now()
     now_time = '{}-{}-{} {}:{}:{}'.format(now.year, now.month,
                                           now.day, now.hour, now.minute, now.second)
     post_data = res + "\n" + now_time
-    push_url = "https://push.xuthus.cc/send/" + input()
+    push_url = "https://push.xuthus.cc/send/" + spkey
     requests.post(push_url, post_data.encode("utf-8"))
 
 
@@ -71,7 +75,7 @@ tempcookie = res.cookies
 object = json.loads(res.text)
 if object['code'] == 200:
     print("登录成功！")
-    push('登录成功')
+    push('网易云登录成功')
 else:
     res = "登录失败！请检查密码是否正确！"+str(object['code'])
     push(res)
