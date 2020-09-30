@@ -45,7 +45,6 @@ logindata = {
 
 # 发送QQ通知
 
-
 def push(res):
     now = datetime.datetime.now()
     now_time = '{}-{}-{} {}:{}:{}'.format(now.year, now.month,
