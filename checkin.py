@@ -42,6 +42,19 @@ logindata = {
     "password": md5(input()),
     "rememberLogin": "true",
 }
+
+# 发送QQ通知
+
+
+def push(res):
+    now = datetime.datetime.now()
+    now_time = '{}-{}-{} {}:{}:{}'.format(
+        now.year, now.month, now.day, now.hour, now.minute, now.second)
+    post_data = res + "\n" + now_time
+    push_url = "https://push.xuthus.cc/send/" + input()
+    requests.post(push_url, post_data.encode("utf-8"))
+
+
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36',
     "Referer": "http://music.163.com/",
@@ -59,8 +72,10 @@ tempcookie = res.cookies
 object = json.loads(res.text)
 if object['code'] == 200:
     print("登录成功！")
+    push('登录成功')
 else:
-    print("登录失败！请检查密码是否正确！"+str(object['code']))
+    res = "登录失败！请检查密码是否正确！"+str(object['code'])
+    push(res)
     exit(object['code'])
 
 res = s.post(url=url2, data=protect('{"type":0}'), headers=headers)
@@ -69,21 +84,13 @@ if object['code'] != 200 and object['code'] != -2:
     print("签到时发生错误："+object['msg'])
 else:
     if object['code'] == 200:
-        now = datetime.datetime.now()
-        now_time = '{}-{}-{} {}:{}:{}'.format(
-            now.year, now.month, now.day, now.hour, now.minute, now.second)
         res = "签到成功，经验+"+str(object['point'])
-        print(res)
-        # 发送QQ通知
-        push_url = "https://push.xuthus.cc/send/" + input()
-        post_data = res + "\n" + now_time
-        requests.post(push_url, post_data.encode("utf-8"))
+        push(res)
     else:
-       # 发送QQ通知
-        push_url = "https://push.xuthus.cc/send/" + input()
-        post_data = '网易云重复签到'
-        requests.post(push_url, post_data.encode("utf-8"))
         print("重复签到")
+        res = '网易云重复签到'
+        post_data = res + "\n" + now_time
+        push(post_data)
 
 
 res = s.post(url=url3, data=protect(
@@ -125,7 +132,9 @@ postdata = {
 res = s.post(url, protect(json.dumps(postdata)))
 object = json.loads(res.text, strict=False)
 if object['code'] == 200:
-    print("刷单成功！共"+str(count)+"首")
+    res = "刷单成功！共"+str(count)+"首"
+    push(res)
+    print(res)
     exit()
 else:
     print("发生错误："+str(object['code'])+object['message'])
