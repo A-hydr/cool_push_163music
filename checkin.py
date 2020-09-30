@@ -75,16 +75,18 @@ tempcookie = res.cookies
 object = json.loads(res.text)
 if object['code'] == 200:
     print("登录成功！")
-    push('网易云登录成功')
+    # push('网易云登录成功')
 else:
     res = "登录失败！请检查密码是否正确！"+str(object['code'])
-    push(res)
+    # push(res)
     exit(object['code'])
 
 res = s.post(url=url2, data=protect('{"type":0}'), headers=headers)
 object = json.loads(res.text)
 if object['code'] != 200 and object['code'] != -2:
-    print("签到时发生错误："+object['msg'])
+    res = "签到时发生错误："+object['msg']
+    print(res)
+    push(res)
 else:
     if object['code'] == 200:
         res = "签到成功，经验+"+str(object['point'])
@@ -92,7 +94,7 @@ else:
     else:
         res = '网易云重复签到'
         print(res)
-        push(res)
+        # push(res)
 
 
 res = s.post(url=url3, data=protect(
